@@ -1,12 +1,13 @@
 package hospital;
 
+import doctors.Therapist;
 import interfaces.IDoctor;
-import doctors.Cardiologist;
 
 /**
  * Registry - класс выполняющий инверсию управления при запросах клиентов(пациентов)
  *
  * @version 1.0.0
+ * @package hospital
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2019, Vasya Brazhnikov
  */
@@ -16,7 +17,7 @@ public class Registry {
      *  @access private
      *  @var IDoctor doctor - хранит информацию о назначенном для лечения враче
      */
-    private IDoctor doctor;
+    private IDoctor doctor = new Therapist();
 
     /**
      * getDoctor - получить врача назначенного для лечения пациента
@@ -41,9 +42,6 @@ public class Registry {
     public void referPatientToDoctor() {
         System.out.println( "Пройдите пожалуйста в кабинет доктора соглассно направления!" );
 
-        //IDoctor  doctor = new Cardiologist();
-
-        //this.setDoctor( doctor );
         this.doctor.toTreat();
     }
 }

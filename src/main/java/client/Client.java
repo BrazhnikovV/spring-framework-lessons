@@ -1,9 +1,10 @@
 package client;
 
+import config.AppConfig;
 import hospital.Registry;
-import interfaces.IDoctor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Client - класс реализующий функционал клиента(пациента)
@@ -16,16 +17,33 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Client {
 
     /*
+    // ============== Обычный способ выполнения функционала =============== //
+
     public static void main( String[] args ) {
         Registry registry = new Registry();
+        registry.referPatientToDoctor();
+    }
+
+    // ============== Конфигурация через файл XML =============== //
+
+    public static void main( String[] args ) {
+        ApplicationContext context = new ClassPathXmlApplicationContext( "config.xml" );
+        Registry registry = context.getBean("registry", Registry.class );
+        registry.referPatientToDoctor();
+    }
+
+    // ============== Конфигурация через AppConfiguration =============== //
+
+    public static void main( String[] args ) {
+        ApplicationContext context = new AnnotationConfigApplicationContext( AppConfig.class );
+        Registry registry = context.getBean("registry", Registry.class );
         registry.referPatientToDoctor();
     }
     */
 
     public static void main( String[] args ) {
-        ApplicationContext context = new ClassPathXmlApplicationContext( "config.xml" );
-        //IDoctor doctor = context.getBean( "doctor", IDoctor.class);
-        Registry registry = context.getBean( "registry", Registry.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext( AppConfig.class );
+        Registry registry = context.getBean("registry", Registry.class );
         registry.referPatientToDoctor();
     }
 }
