@@ -41,6 +41,10 @@ public class Client {
     }
     */
 
+    // ============== Использование Autowired (Здесь есть сомнения...) =============== //
+    // По сути autowired отличается от javaConfig в данном случае, только добавлением аннотации Component для класа Registry,
+    // а также добавлением аннотации Autowired для метода setDoctor.
+
     public static void main( String[] args ) {
         ApplicationContext context = new AnnotationConfigApplicationContext( AppConfig.class );
         Registry registry = context.getBean("registry", Registry.class );

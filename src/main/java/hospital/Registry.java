@@ -2,6 +2,8 @@ package hospital;
 
 import doctors.Therapist;
 import interfaces.IDoctor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Registry - класс выполняющий инверсию управления при запросах клиентов(пациентов)
@@ -11,6 +13,7 @@ import interfaces.IDoctor;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2019, Vasya Brazhnikov
  */
+@Component
 public class Registry {
 
     /**
@@ -32,6 +35,7 @@ public class Registry {
      * @param doctor - назначенный врач
      * @return void
      */
+    @Autowired( required = false)
     public void setDoctor( IDoctor doctor ) {
         this.doctor = doctor;
     }
