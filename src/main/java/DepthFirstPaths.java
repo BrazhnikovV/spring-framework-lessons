@@ -52,7 +52,7 @@ public class DepthFirstPaths {
 
     /**
      * pathTo -
-     * @param dist
+     * @param dist - вершина
      * @return LinkedList<Integer>
      */
     public LinkedList<Integer> pathTo ( int dist ) {

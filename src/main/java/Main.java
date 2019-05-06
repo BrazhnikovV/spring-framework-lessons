@@ -28,8 +28,8 @@ public class Main {
 
         DepthFirstPaths dfs = new DepthFirstPaths( graph, 0 );
 
-        System.out.println( dfs.hasPathTo( 5 ) );
-        System.out.println( dfs.hasPathTo( 12 ) );
+        // подсчет в глубину
         System.out.println( dfs.pathTo( 5 ) );
+        // System.out.println( graph.getAdjLists(5) );
     }
 }
