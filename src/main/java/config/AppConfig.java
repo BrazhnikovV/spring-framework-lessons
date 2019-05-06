@@ -1,8 +1,8 @@
 package config;
 
-import doctors.Cardiologist;
 import hospital.Registry;
 import interfaces.IDoctor;
+import doctors.Cardiologist;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
