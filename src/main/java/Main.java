@@ -1,3 +1,9 @@
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import java.util.Date;
+
 /**
  * Main -
  *
@@ -8,28 +14,22 @@
 public class Main {
 
     public static void main( String[] args ) {
-        Graph graph = new Graph( 13 );
 
-        graph.addEdge( 0, 6 );
-        graph.addEdge( 0, 1 );
-        graph.addEdge( 0, 2 );
-        graph.addEdge( 5, 3 );
-        graph.addEdge( 5, 4 );
-        graph.addEdge( 5, 0 );
-        graph.addEdge( 4, 6 );
-        graph.addEdge( 4, 3 );
+        SessionFactory sessionFactory = new Configuration()
+            .configure( "hibernate.cfg.xml" )
+            .addAnnotatedClass( Students.class )
+            .buildSessionFactory();
 
-        graph.addEdge( 7, 8 );
+        Session session = sessionFactory.getCurrentSession();
 
-        graph.addEdge( 9,  10 );
-        graph.addEdge( 9,  12 );
-        graph.addEdge( 9,  11 );
-        graph.addEdge( 11, 12 );
-
-        DepthFirstPaths dfs = new DepthFirstPaths( graph, 0 );
-
-        // подсчет в глубину
-        System.out.println( dfs.pathTo( 5 ) );
-        // System.out.println( graph.getAdjLists(5) );
+        String unixTime = String.valueOf( System.currentTimeMillis() / 1000L );
+        Students students = new Students();
+        students.setCreated_at( unixTime );
+        students.setUpdated_at( unixTime );
+        students.setName( "Name" );
+        students.setDescription( "Description" );
+        session.beginTransaction();
+        session.save( students );
+        session.getTransaction().commit();
     }
 }
