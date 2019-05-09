@@ -1,5 +1,6 @@
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -51,4 +52,17 @@ public class Students {
      */
     @Column( name = "updated_at" )
     private String updated_at;
+
+
+    /**
+     *  @access private
+     *  @var List<Dekanat> dekanatList -
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "cours-studs",
+            joinColumns = @JoinColumn( name = "course_id" ),
+            inverseJoinColumns = @JoinColumn( name = "student_id" )
+    )
+    private List<Dekanat> dekanatList;
 }
