@@ -1,10 +1,12 @@
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+
 import java.util.List;
 import javax.persistence.*;
 
 /**
- * Students - класс
+ * Students - класс сущность, студент
  *
  * @version 1.0.1
  * @author  Vasya Brazhnikov
@@ -27,28 +29,28 @@ public class Students {
 
     /**
      *  @access private
-     *  @var String name -
+     *  @var String name - имя
      */
     @Column( name = "name" )
     private String name;
 
     /**
      *  @access private
-     *  @var String description -
+     *  @var String description - описание студента
      */
     @Column( name = "description" )
     private String description;
 
     /**
      *  @access private
-     *  @var String created_at -
+     *  @var String created_at - время создания записи
      */
     @Column( name = "created_at" )
     private String created_at;
 
     /**
      *  @access private
-     *  @var String updated_at -
+     *  @var String updated_at - время обновления записи
      */
     @Column( name = "updated_at" )
     private String updated_at;
@@ -56,7 +58,7 @@ public class Students {
 
     /**
      *  @access private
-     *  @var List<Dekanat> dekanatList -
+     *  @var List<Courses> coursesList - список курсов, которые посещает студент
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -64,5 +66,6 @@ public class Students {
             joinColumns = @JoinColumn( name = "student_id" ),
             inverseJoinColumns = @JoinColumn( name = "course_id" )
     )
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Courses> coursesList;
 }
