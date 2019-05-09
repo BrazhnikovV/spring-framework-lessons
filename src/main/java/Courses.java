@@ -1,6 +1,7 @@
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Courses - класс
@@ -44,4 +45,16 @@ public class Courses {
      */
     @Column( name = "created_at" )
     private String created_at;
+
+    /**
+     *  @access private
+     *  @var List<Students> studentsList -
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "cours_studs",
+            joinColumns = @JoinColumn( name = "course_id" ),
+            inverseJoinColumns = @JoinColumn( name = "student_id" )
+    )
+    private List<Students> studentsList;
 }

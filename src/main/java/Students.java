@@ -58,11 +58,11 @@ public class Students {
      *  @access private
      *  @var List<Dekanat> dekanatList -
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "cours-studs",
-            joinColumns = @JoinColumn( name = "course_id" ),
-            inverseJoinColumns = @JoinColumn( name = "student_id" )
+            name = "cours_studs",
+            joinColumns = @JoinColumn( name = "student_id" ),
+            inverseJoinColumns = @JoinColumn( name = "course_id" )
     )
-    private List<Dekanat> dekanatList;
+    private List<Courses> coursesList;
 }

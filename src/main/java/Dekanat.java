@@ -1,8 +1,9 @@
-import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import javax.persistence.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Dekanat - класс
@@ -11,51 +12,61 @@ import java.util.List;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-@Getter
-@Setter
-@Entity
-@Table( name = "dekanat" )
 public class Dekanat {
 
-    /**
-     *  @access private
-     *  @var int id - перавичный ключ таблицы
-     */
-    @Id
-    @Column( name = "id" )
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int id;
+    private SessionFactory sessionFactory;
+
+    public Dekanat() {
+        this.sessionFactory = new Configuration()
+            .configure( "hibernate.cfg.xml" )
+            .addAnnotatedClass( Students.class )
+            .addAnnotatedClass( Courses.class )
+            .buildSessionFactory();;
+    }
+
+    public String help( String req ) {
+        //System.out.println( req );
+        switch( req ) {
+            case "help":
+                return "help: List commands " +
+                        "\n==================== " +
+                        "\n allstudents \n student 1 \n allcourses \n course 1";
+            case "allstudents":
+                return this.getStudentsList().toString();
+            default:
+                return "Sorry nothing we can help, read help";
+        }
+    }
 
     /**
-     *  @access private
-     *  @var String name -
+     * getStudentsList - получить список студенотов в виде строки
+     * @return String
      */
-    @Column( name = "name" )
-    private String name;
+    private String getStudentsList() {
 
-    /**
-     *  @access private
-     *  @var String created_at -
-     */
-    @Column( name = "created_at" )
-    private String created_at;
+        Session session = this.sessionFactory.getCurrentSession();
 
-    /**
-     *  @access private
-     *  @var String updated_at -
-     */
-    @Column( name = "updated_at" )
-    private String updated_at;
+        AtomicReference<String> listStudents = new AtomicReference<>("" );
+        AtomicReference<String> listCourses  = new AtomicReference<>("" );
 
-    /**
-     *  @access private
-     *  @var List<Students> studentsList -
-     */
-    @ManyToMany
-    @JoinTable(
-            name = "cours-studs",
-            joinColumns = @JoinColumn( name = "student_id" ),
-            inverseJoinColumns = @JoinColumn( name = "course_id" )
-    )
-    private List<Students> studentsList;
+        session.beginTransaction();
+        List<Students> students = session.createQuery( "from Students" ).getResultList();
+        students.stream().forEach( student -> {
+            student.getCoursesList().stream().forEach( course -> {
+                listCourses.updateAndGet( v -> v + " Course: " + course.getName() + "\n" );
+            });
+            listStudents.updateAndGet( v -> v + "id: " +
+                    student.getId() + " Name: " +
+                    student.getName() + "\n" +
+                    listCourses );
+        });
+        session.getTransaction().commit();
+
+        return listStudents.get();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
